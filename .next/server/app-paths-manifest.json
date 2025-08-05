@@ -1,5 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
+  "/urunler/page": "app/urunler/page.js",
+  "/page": "app/page.js",
+  "/sambaAdminLogin/page": "app/sambaAdminLogin/page.js",
+  "/admin/urunler/page": "app/admin/urunler/page.js",
+  "/admin/urunler/[slug]/page": "app/admin/urunler/[slug]/page.js"
 }

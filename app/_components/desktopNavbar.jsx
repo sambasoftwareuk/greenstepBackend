@@ -58,6 +58,7 @@ const DesktopNavbar = () => {
             <IconOnlyButton icon={<Icon variant={TurkishFlag} size={24} />} />
             <IconOnlyButton icon={<Icon variant={UKFlag} size={22} />} />
           </div>
+
         </div>
       </nav>
     </header>
