@@ -25,14 +25,8 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch("/api/auth/verify");
       const data = await response.json();
 
-      console.log("Auth check response:", data);
-
       if (response.ok && data.authenticated) {
-        console.log("Setting user:", data.user);
-        console.log("User role:", data.user.role);
         setUser(data.user);
-      } else {
-        console.log("Not authenticated or error:", data);
       }
     } catch (error) {
       console.error("Auth check error:", error);
@@ -56,11 +50,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const canEdit = () => {
-    return (
-      hasPermission("edit_atoms") ||
-      hasPermission("edit_molecules") ||
-      hasPermission("edit_components")
-    );
+    return hasPermission("can_edit");
+  };
+
+  const getRoleUrl = () => {
+    if (!user) return "/urunler";
+    return "/urunler-edit";
   };
 
   const value = {
@@ -70,6 +65,7 @@ export const AuthProvider = ({ children }) => {
     hasPermission,
     canEdit,
     checkAuth,
+    getRoleUrl,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

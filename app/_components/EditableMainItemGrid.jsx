@@ -5,7 +5,6 @@ import EditableProductCardWithImage from "../_molecules/EditableProductCardWithI
 import { Header1 } from "../_atoms/Headers";
 import EditableWrapper from "./EditableWrapper";
 import Link from "next/link";
-import { useAuth } from "../contexts/AuthContext";
 import { SambaLinks } from "../_atoms/SambaLinks";
 
 const EditableMainItemGrid = ({
@@ -15,8 +14,12 @@ const EditableMainItemGrid = ({
   gridClassName = "grid-cols-1 md:grid-cols-2",
   cardProps = {},
   onSave,
+  onTitleSave,
+  canEditImages = true,
+  canEditDescriptions = true,
+  canDelete = true,
+  canAdd = true,
 }) => {
-  const { canEdit } = useAuth();
   const [products, setProducts] = useState(items);
 
   const handleProductSave = async (updatedProduct) => {
@@ -43,63 +46,49 @@ const EditableMainItemGrid = ({
 
   const handleTitleSave = async (formData) => {
     // Title değişikliğini kaydet
-    console.log("Title saved:", formData);
+    if (onTitleSave) {
+      await onTitleSave(formData);
+    } else {
+      console.log("Title saved:", formData);
+    }
   };
 
-  if (!canEdit()) {
-    // Normal görünüm - düzenleme yetkisi yoksa
-    return (
-      <div className="w-full max-w-7xl mx-auto mt-6 p-4">
-        {title && <Header1 className="text-center">{title}</Header1>}
-        <div className={`grid ${gridClassName} gap-8 items-center`}>
-          {products?.map((item) => (
-            <Link key={item.slug} href={`/${baseHref}/${item.slug}`}>
-              <EditableProductCardWithImage
-                key={item.id}
-                title={item.title}
-                imageLink={item.image}
-                buttonLabel="DETAYLAR"
-                variant={1}
-                aspectRatio="aspect-[16/16]"
-                productId={item.id}
-                onSave={handleProductSave}
-                {...cardProps}
-              />
-            </Link>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Düzenleme yetkisi varsa
+  // Her zaman düzenlenebilir grid'i göster, yetki kontrolü prop'larla yapılsın
   return (
     <div className="w-full max-w-7xl mx-auto mt-6 p-4">
-      <EditableWrapper
-        onSave={handleTitleSave}
-        initialData={{ title }}
-        fields={titleFields}
-        className="mb-6"
-      >
-        {title && <Header1 className="text-center">{title}</Header1>}
-      </EditableWrapper>
+      {onTitleSave ? (
+        <EditableWrapper
+          onSave={onTitleSave || handleTitleSave}
+          initialData={{ title }}
+          fields={titleFields}
+          className="mb-6"
+        >
+          {title && <Header1 className="text-center">{title}</Header1>}
+        </EditableWrapper>
+      ) : (
+        <div className="mb-6">
+          {title && <Header1 className="text-center">{title}</Header1>}
+        </div>
+      )}
 
       <div className={`grid ${gridClassName} gap-8 items-center`}>
         {products?.map((item) => (
           <div key={item.slug} className="relative">
-            <Link href={`/${baseHref}/${item.slug}`} className="block">
-              <EditableProductCardWithImage
-                key={item.id}
-                title={item.title}
-                imageLink={item.image}
-                buttonLabel="DETAYLAR"
-                variant={1}
-                aspectRatio="aspect-[16/16]"
-                productId={item.id}
-                onSave={handleProductSave}
-                {...cardProps}
-              />
-            </Link>
+            <EditableProductCardWithImage
+              key={item.id}
+              title={item.title}
+              description={item.description}
+              imageLink={item.image}
+              buttonLabel="DETAYLAR"
+              variant={1}
+              aspectRatio="aspect-[16/16]"
+              productId={item.id}
+              onSave={handleProductSave}
+              canEditImages={canEditImages}
+              canEditDescriptions={canEditDescriptions}
+              canDelete={canDelete}
+              {...cardProps}
+            />
           </div>
         ))}
       </div>

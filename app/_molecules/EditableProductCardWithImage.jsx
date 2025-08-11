@@ -9,6 +9,7 @@ import { Header2, Header3 } from "../_atoms/Headers";
 
 const EditableProductCardWithImage = ({
   title,
+  description,
   imageLink,
   layout = "vertical",
   variant = 1,
@@ -20,6 +21,9 @@ const EditableProductCardWithImage = ({
   showBottomLine = false,
   onSave,
   productId,
+  canEditImages = true,
+  canEditDescriptions = true,
+  canDelete = true,
 }) => {
   const { canEdit } = useAuth();
 
@@ -33,6 +37,10 @@ const EditableProductCardWithImage = ({
     { name: "title", label: "Başlık", type: "text" },
     { name: "titleFontSize", label: "Başlık Font Boyutu", type: "text" },
     { name: "titleColor", label: "Başlık Rengi", type: "text" },
+  ];
+
+  const descriptionFields = [
+    { name: "description", label: "Açıklama", type: "textarea" },
   ];
 
   const imageFields = [
@@ -50,7 +58,7 @@ const EditableProductCardWithImage = ({
     { name: "button", label: "Buton Göster", type: "checkbox" },
   ];
 
-  const Title = (
+  const Title = canEditDescriptions ? (
     <EditableWrapper
       onSave={handleSave}
       initialData={{ title, titleFontSize, titleColor }}
@@ -65,9 +73,36 @@ const EditableProductCardWithImage = ({
         {title}
       </Header2>
     </EditableWrapper>
+  ) : (
+    <Header2
+      className={`${titleFontSize} ${titleColor} mb-4 mt-8 ${
+        showBottomLine ? "border-t border-border w-full pt-3" : ""
+      }`}
+    >
+      {title}
+    </Header2>
   );
 
-  const Image = (
+  const Description = canEditDescriptions ? (
+    <EditableWrapper
+      onSave={handleSave}
+      initialData={{ description }}
+      fields={descriptionFields}
+      className="relative"
+    >
+      <div
+        className="text-gray-600 mb-4"
+        dangerouslySetInnerHTML={{ __html: description }}
+      />
+    </EditableWrapper>
+  ) : (
+    <div
+      className="text-gray-600 mb-4"
+      dangerouslySetInnerHTML={{ __html: description }}
+    />
+  );
+
+  const Image = canEditImages ? (
     <EditableWrapper
       onSave={handleSave}
       initialData={{ imageLink }}
@@ -80,6 +115,12 @@ const EditableProductCardWithImage = ({
         </div>
       </div>
     </EditableWrapper>
+  ) : (
+    <div className="overflow-hidden rounded-md my-5">
+      <div className="transition-transform duration-300 ease-in-out group-hover:scale-105">
+        <CardImage imageLink={imageLink} imageAlt={title} />
+      </div>
+    </div>
   );
 
   const Button = button ? (
@@ -123,9 +164,9 @@ const EditableProductCardWithImage = ({
   }
 
   const variantMap = {
-    1: [Title, Image, Button],
-    2: [Image, Title, Button],
-    3: [Button, Image, Title],
+    1: [Title, Description, Image, Button],
+    2: [Image, Title, Description, Button],
+    3: [Button, Image, Title, Description],
   };
 
   const content = variantMap[variant] || variantMap[1];

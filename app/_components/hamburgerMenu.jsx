@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Icon from "../_atoms/Icon";
-import { IconOnlyButton } from "../_atoms/buttons";
+import { IconOnlyButton, PrimaryButton } from "../_atoms/buttons";
 import navLinks from "../constants/navLinks";
+import { useAuth } from "../contexts/AuthContext";
 import {
   Cart,
   Search,
@@ -25,6 +26,12 @@ import Logo from "../constants/logo.json";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = "/";
+  };
   const iconMap = {
     Cart,
     Search,
@@ -105,7 +112,7 @@ const HamburgerMenu = () => {
               </div>
             </div>
 
-            <div className="flex gap-2 items-center justify-center  mt-6">
+            <div className="flex gap-2 items-center justify-center mt-6">
               {socialIcons?.map(({ href, svg, alt, bgColor }) => (
                 <Link
                   key={alt}
@@ -123,6 +130,33 @@ const HamburgerMenu = () => {
                   </div>
                 </Link>
               ))}
+            </div>
+
+            {/* Login/Logout Section */}
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              {user && (
+                <div className="flex flex-col space-y-2">
+                  <div className="text-center text-sm text-gray-600">
+                    {user.username} ({user.role})
+                  </div>
+                  {user.role === "super_admin" && (
+                    <Link
+                      href="/superadmin/permissions"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <PrimaryButton
+                        label="Yetki Yönetimi"
+                        className="bg-blue-600 hover:bg-blue-700 text-white w-full"
+                      />
+                    </Link>
+                  )}
+                  <PrimaryButton
+                    onClick={handleLogout}
+                    label="Çıkış Yap"
+                    className="bg-red-600 hover:bg-red-700 text-white w-full"
+                  />
+                </div>
+              )}
             </div>
           </div>
 

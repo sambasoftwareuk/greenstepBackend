@@ -20,18 +20,15 @@ const EditableWrapper = ({
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(initialData);
 
-  // Debug bilgileri
-  console.log("EditableWrapper Debug:", {
-    canEdit: canEdit(),
-    user,
-    isEditing,
-    hasChildren: !!children,
-  });
+  // Debug bilgileri kaldırıldı
 
   if (!canEdit()) {
     console.log("EditableWrapper: Düzenleme yetkisi yok");
     return <div className={className}>{children}</div>;
   }
+
+  // Düzenleme yetkisi varsa kalem ikonu göster
+  const showEditIcon = canEdit() && !isEditing;
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -147,7 +144,7 @@ const EditableWrapper = ({
   }
 
   return (
-    <div className={`relative group ${className}`}>
+    <div className={`relative ${className}`}>
       {/* Edit Button */}
       <button
         onClick={(e) => {
@@ -155,10 +152,22 @@ const EditableWrapper = ({
           e.stopPropagation();
           handleEdit();
         }}
-        className="absolute top-2 right-2 z-10 bg-primary text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-primary900 shadow-lg"
+        className="absolute top-2 right-2 z-10 bg-white text-primary border-2 border-primary p-2 rounded-lg opacity-100 transition-all duration-200 hover:bg-primary hover:text-white shadow-md hover:shadow-lg"
         title="Düzenle"
       >
-        <span className="text-sm">{editIcon}</span>
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+          />
+        </svg>
       </button>
 
       {/* Original Content */}

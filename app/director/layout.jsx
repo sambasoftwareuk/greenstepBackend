@@ -10,7 +10,7 @@ export default function DirectorLayout({ children }) {
 
   useEffect(() => {
     if (!loading && (!user || user.role !== "director")) {
-      router.push("/sambaDirectorLogin");
+      router.push("/urunler");
     }
   }, [user, loading, router]);
 
@@ -26,24 +26,5 @@ export default function DirectorLayout({ children }) {
     return null;
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Director Navigation */}
-      <nav className="bg-red text-white p-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">Direktör Paneli</h1>
-          <div className="flex items-center space-x-4">
-            <span>Hoş geldin, {user.username}</span>
-            <button
-              onClick={() => router.push("/sambaDirectorLogin")}
-              className="bg-red100 hover:bg-red text-black hover:text-white px-4 py-2 rounded"
-            >
-              Çıkış
-            </button>
-          </div>
-        </div>
-      </nav>
-      {children}
-    </div>
-  );
+  return <div className="min-h-screen bg-gray-50">{children}</div>;
 }
