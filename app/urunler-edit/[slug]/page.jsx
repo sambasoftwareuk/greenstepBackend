@@ -8,7 +8,7 @@ import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function EditProductDetailPage({ params }) {
-  const { slug } = params;
+  const { slug } = React.use(params);
   const { user, canEdit, loading } = useAuth();
   const router = useRouter();
   const product = products.find((p) => p.slug === slug);
@@ -25,8 +25,6 @@ export default function EditProductDetailPage({ params }) {
 
   const handleSave = async (updatedData) => {
     try {
-      console.log("Product detail updated:", updatedData);
-
       // API'ye kaydet
       if (updatedData.id) {
         const response = await fetch(`/api/products/${updatedData.id}`, {
@@ -38,7 +36,6 @@ export default function EditProductDetailPage({ params }) {
         });
 
         if (response.ok) {
-          console.log("Product saved successfully");
           // Ana sayfaya yönlendir
           router.push(`/urunler/${slug}`);
         } else {
@@ -80,7 +77,7 @@ export default function EditProductDetailPage({ params }) {
       <EditableDetailPageTemplate
         title={product.title}
         description={product.description}
-        image={product.image}
+        image={product.imageLink || product.image}
         menu={productMenu}
         activeHref={`/urunler-edit/${product.slug}`}
         otherItems={products.filter((p) => p.slug !== slug)}
@@ -89,6 +86,10 @@ export default function EditProductDetailPage({ params }) {
         notFoundText="Ürün bulunamadı."
         onSave={handleSave}
         productId={product.id}
+        canEditTitle={true}
+        canEditDescription={true}
+        canEditImage={true}
+        canEditMenu={true}
       />
     </div>
   );

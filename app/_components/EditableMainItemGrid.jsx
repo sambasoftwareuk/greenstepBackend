@@ -17,10 +17,12 @@ const EditableMainItemGrid = ({
   onTitleSave,
   canEditImages = true,
   canEditDescriptions = true,
+  canEditTitle = true,
   canDelete = true,
   canAdd = true,
 }) => {
   const [products, setProducts] = useState(items);
+  const [editingProductId, setEditingProductId] = useState(null);
 
   const handleProductSave = async (updatedProduct) => {
     try {
@@ -37,9 +39,20 @@ const EditableMainItemGrid = ({
             : product
         )
       );
+
+      // Edit modunu kapat
+      setEditingProductId(null);
     } catch (error) {
       console.error("Product save error:", error);
     }
+  };
+
+  const handleEditStart = (productId) => {
+    setEditingProductId(productId);
+  };
+
+  const handleEditCancel = () => {
+    setEditingProductId(null);
   };
 
   const titleFields = [{ name: "title", label: "Sayfa Başlığı", type: "text" }];
@@ -48,8 +61,6 @@ const EditableMainItemGrid = ({
     // Title değişikliğini kaydet
     if (onTitleSave) {
       await onTitleSave(formData);
-    } else {
-      console.log("Title saved:", formData);
     }
   };
 
@@ -61,9 +72,11 @@ const EditableMainItemGrid = ({
           onSave={onTitleSave || handleTitleSave}
           initialData={{ title }}
           fields={titleFields}
-          className="mb-6"
+          className="mb-6 text-center"
         >
-          {title && <Header1 className="text-center">{title}</Header1>}
+          <div className="relative inline-block">
+            {title && <Header1 className="text-center">{title}</Header1>}
+          </div>
         </EditableWrapper>
       ) : (
         <div className="mb-6">
@@ -72,25 +85,69 @@ const EditableMainItemGrid = ({
       )}
 
       <div className={`grid ${gridClassName} gap-8 items-center`}>
-        {products?.map((item) => (
-          <div key={item.slug} className="relative">
-            <EditableProductCardWithImage
-              key={item.id}
-              title={item.title}
-              description={item.description}
-              imageLink={item.image}
-              buttonLabel="DETAYLAR"
-              variant={1}
-              aspectRatio="aspect-[16/16]"
-              productId={item.id}
-              onSave={handleProductSave}
-              canEditImages={canEditImages}
-              canEditDescriptions={canEditDescriptions}
-              canDelete={canDelete}
-              {...cardProps}
-            />
-          </div>
-        ))}
+        {products?.map((item) => {
+          const linkUrl = `/${baseHref}/${item.slug}`;
+          const isEditing = editingProductId === item.id;
+
+          return (
+            <div key={item.slug} className="relative">
+              {isEditing ? (
+                // Edit modunda iken Link kullanma, sadece kartı göster
+                <div
+                  className="cursor-default pointer-events-none"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                  }}
+                >
+                  <div className="pointer-events-auto">
+                    <EditableProductCardWithImage
+                      key={item.id}
+                      title={item.title}
+                      description={item.description}
+                      imageLink={item.imageLink || item.image}
+                      buttonLabel="DETAYLAR"
+                      variant={1}
+                      aspectRatio="aspect-[16/16]"
+                      productId={item.id}
+                      onSave={handleProductSave}
+                      onEditStart={() => handleEditStart(item.id)}
+                      onEditCancel={handleEditCancel}
+                      canEditImages={canEditImages}
+                      canEditDescriptions={canEditDescriptions}
+                      canEditTitle={canEditTitle}
+                      canDelete={canDelete}
+                      {...cardProps}
+                    />
+                  </div>
+                </div>
+              ) : (
+                // Normal modda Link kullan
+                <Link href={linkUrl}>
+                  <EditableProductCardWithImage
+                    key={item.id}
+                    title={item.title}
+                    description={item.description}
+                    imageLink={item.imageLink || item.image}
+                    buttonLabel="DETAYLAR"
+                    variant={1}
+                    aspectRatio="aspect-[16/16]"
+                    productId={item.id}
+                    onSave={handleProductSave}
+                    onEditStart={() => handleEditStart(item.id)}
+                    onEditCancel={handleEditCancel}
+                    canEditImages={canEditImages}
+                    canEditDescriptions={canEditDescriptions}
+                    canEditTitle={canEditTitle}
+                    canDelete={canDelete}
+                    {...cardProps}
+                  />
+                </Link>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

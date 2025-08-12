@@ -22,21 +22,21 @@ const EditableDetailPageTemplate = ({
   notFoundText,
   onSave,
   productId,
+  canEditTitle = true,
+  canEditDescription = true,
+  canEditImage = true,
+  canEditMenu = true,
 }) => {
-  const { canEdit, user } = useAuth();
-
-  console.log("EditableDetailPageTemplate Debug:", {
-    canEdit: canEdit(),
-    user,
-    productId,
-    title,
-    hasDescription: !!description,
-    hasImage: !!image,
-  });
+  const { user } = useAuth();
 
   const handleSave = async (formData) => {
     if (onSave) {
-      await onSave({ ...formData, id: productId });
+      // image değişikliği varsa hem image hem de imageLink alanlarını güncelle
+      const updatedData = { ...formData, id: productId };
+      if (formData.image && formData.image !== image) {
+        updatedData.imageLink = formData.image;
+      }
+      await onSave(updatedData);
     }
   };
 
@@ -46,15 +46,7 @@ const EditableDetailPageTemplate = ({
     { name: "description", label: "Açıklama", type: "textarea", rows: 10 },
   ];
 
-  const imageFields = [
-    { name: "image", label: "Resim URL", type: "text" },
-    {
-      name: "imageFile",
-      label: "Resim Dosyası",
-      type: "file",
-      accept: "image/*",
-    },
-  ];
+  const imageFields = [{ name: "image", label: "Resim URL", type: "text" }];
 
   const sideMenuFields = [
     { name: "menuTitle", label: "Menü Başlığı", type: "text" },
@@ -75,9 +67,12 @@ const EditableDetailPageTemplate = ({
         onSave={handleSave}
         initialData={{ title }}
         fields={titleFields}
-        className="mb-5"
+        className="mb-5 text-center"
+        canEdit={canEditTitle}
       >
-        <Header1 className="text-center my-5">{title}</Header1>
+        <div className="relative inline-block">
+          <Header1 className="my-5">{title}</Header1>
+        </div>
       </EditableWrapper>
 
       <div className="flex flex-col lg:flex-row justify-between gap-8">
@@ -88,6 +83,7 @@ const EditableDetailPageTemplate = ({
             initialData={{ menuTitle: "Ürünlerimiz" }}
             fields={sideMenuFields}
             className="mb-4"
+            canEdit={canEditMenu}
           >
             <SideMenu menu={menu} activeHref={activeHref} />
           </EditableWrapper>
@@ -100,11 +96,14 @@ const EditableDetailPageTemplate = ({
           initialData={{ description }}
           fields={descriptionFields}
           className="w-full lg:w-1/2 max-w-2xl"
+          canEdit={canEditDescription}
         >
-          <div
-            className="prose prose-lg w-full text-justify"
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
+          <div className="relative">
+            <div
+              className="prose prose-lg w-full text-justify"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
+          </div>
         </EditableWrapper>
 
         {/* Editable Image */}
@@ -113,14 +112,13 @@ const EditableDetailPageTemplate = ({
           initialData={{ image }}
           fields={imageFields}
           className="relative"
+          canEdit={canEditImage}
         >
-          <div>
+          <div className="relative w-[300px] h-[300px]">
             <CardImage
               imageLink={image}
               imageAlt={title}
-              width={300}
-              height={300}
-              className="rounded-lg shadow-lg object-contain"
+              aspectRatio="aspect-square"
             />
           </div>
         </EditableWrapper>

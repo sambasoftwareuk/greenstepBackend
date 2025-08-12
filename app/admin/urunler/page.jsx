@@ -244,11 +244,12 @@ export default function AdminUrunlerPage() {
         <EditableMainItemGrid
           items={currentProducts}
           title={pageTitle}
-          baseHref="urunler"
+          baseHref="admin/urunler"
           onSave={handleProductSave}
           onTitleSave={canEditTitle() ? handleTitleSave : undefined}
           canEditImages={canEditImages()}
           canEditDescriptions={canEditDescriptions()}
+          canEditTitle={canEditTitle()}
           canDelete={canDeleteProducts()}
           canAdd={canAddProducts()}
         />

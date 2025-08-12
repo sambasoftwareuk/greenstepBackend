@@ -9,29 +9,31 @@ import { PrimaryButton, OutlinedButton } from "../_atoms/buttons";
 const EditableWrapper = ({
   children,
   onSave,
+  onEditStart,
+  onEditCancel,
   initialData = {},
   fields = [],
   className = "",
   editIcon = "✏️",
   saveIcon = "💾",
   cancelIcon = "❌",
+  canEdit = true,
 }) => {
-  const { canEdit, user } = useAuth();
+  const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(initialData);
 
   // Debug bilgileri kaldırıldı
 
-  if (!canEdit()) {
-    console.log("EditableWrapper: Düzenleme yetkisi yok");
+  if (!canEdit || !user) {
     return <div className={className}>{children}</div>;
   }
 
-  // Düzenleme yetkisi varsa kalem ikonu göster
-  const showEditIcon = canEdit() && !isEditing;
-
   const handleEdit = () => {
     setIsEditing(true);
+    if (onEditStart) {
+      onEditStart();
+    }
   };
 
   const handleSave = async () => {
@@ -51,7 +53,7 @@ const EditableWrapper = ({
         });
 
         if (response.ok) {
-          console.log("Product saved to API successfully");
+          // Product saved successfully
         } else {
           console.error("Failed to save to API");
         }
@@ -66,6 +68,9 @@ const EditableWrapper = ({
   const handleCancel = () => {
     setFormData(initialData);
     setIsEditing(false);
+    if (onEditCancel) {
+      onEditCancel();
+    }
   };
 
   const handleInputChange = (field, value) => {
@@ -77,7 +82,7 @@ const EditableWrapper = ({
 
   if (isEditing) {
     return (
-      <div className={`relative ${className}`}>
+      <div className={`relative editing ${className}`}>
         {/* Edit Form */}
         <div className="border-2 border-primary300 rounded-lg p-4 bg-primary50">
           {fields.map((field) => (
@@ -91,15 +96,6 @@ const EditableWrapper = ({
                   }
                   className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   rows={field.rows || 3}
-                />
-              ) : field.type === "file" ? (
-                <input
-                  type="file"
-                  onChange={(e) =>
-                    handleInputChange(field.name, e.target.files[0])
-                  }
-                  className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  accept={field.accept || "*/*"}
                 />
               ) : field.type === "checkbox" ? (
                 <input
@@ -152,7 +148,7 @@ const EditableWrapper = ({
           e.stopPropagation();
           handleEdit();
         }}
-        className="absolute top-2 right-2 z-10 bg-white text-primary border-2 border-primary p-2 rounded-lg opacity-100 transition-all duration-200 hover:bg-primary hover:text-white shadow-md hover:shadow-lg"
+        className="absolute top-2 right-2 z-10 bg-primary text-white border-2 border-primary p-2 rounded-lg opacity-100 transition-all duration-200 hover:bg-primary400 shadow-lg"
         title="Düzenle"
       >
         <svg

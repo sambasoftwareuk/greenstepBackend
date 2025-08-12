@@ -49,7 +49,6 @@ const EditProductPage = () => {
         const response = await fetch("/api/permissions/update");
         if (response.ok) {
           const permissions = await response.json();
-          console.log("Loaded permissions:", permissions);
           setRolePermissions(permissions);
         }
       } catch (error) {
@@ -241,6 +240,7 @@ const EditProductPage = () => {
           onTitleSave={canEditTitle() ? handleTitleSave : undefined}
           canEditImages={canEditImages()}
           canEditDescriptions={canEditDescriptions()}
+          canEditTitle={canEditTitle()}
           canDelete={canDeleteProducts()}
           canAdd={canAddProducts()}
         />

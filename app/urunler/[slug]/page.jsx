@@ -1,9 +1,11 @@
-import DetailPageTemplate from "@/app/_components/DetailPageTemplate";
+import React from "react";
 import products from "../../constants/bigCardProducts.json";
 import sideMenuData from "../../mocks/sideMenuData.json";
+import DetailPageTemplate from "@/app/_components/DetailPageTemplate";
+import Breadcrumb from "@/app/_molecules/breadCrumb";
 
-export default async function ProductDetailPage({ params }) {
-  const { slug } = await params;
+export default function ProductDetailPage({ params }) {
+  const { slug } = React.use(params);
   const product = products.find((p) => p.slug === slug);
   const productMenu = sideMenuData.filter(
     (section) => section.title === "Ürünlerimiz"
@@ -18,7 +20,7 @@ export default async function ProductDetailPage({ params }) {
       <DetailPageTemplate
         title={product.title}
         description={product.description}
-        image={product.image}
+        image={product.imageLink || product.image}
         menu={productMenu}
         activeHref={`/urunler/${product.slug}`}
         otherItems={products.filter((p) => p.slug !== slug)}

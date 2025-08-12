@@ -10,7 +10,7 @@ const productsFilePath = path.join(
 
 export async function PUT(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const updatedProduct = await request.json();
 
     // Mevcut ürünleri oku
@@ -45,7 +45,7 @@ export async function PUT(request, { params }) {
 
 export async function GET(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Mevcut ürünleri oku
     const productsData = fs.readFileSync(productsFilePath, "utf8");

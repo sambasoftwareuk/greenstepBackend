@@ -237,40 +237,18 @@ export default function SuperAdminUrunlerPage() {
         )}
 
         {/* Düzenlenebilir Grid */}
-        {canEditProducts() ? (
-          <EditableMainItemGrid
-            items={currentProducts}
-            title={pageTitle}
-            baseHref="urunler"
-            onSave={handleProductSave}
-            onTitleSave={canEditTitle() ? handleTitleSave : undefined}
-            canEditImages={canEditImages()}
-            canEditDescriptions={canEditDescriptions()}
-            canDelete={canDeleteProducts()}
-            canAdd={canAddProducts()}
-          />
-        ) : (
-          <div className="text-center">
-            <Header1 className="mb-4">{pageTitle}</Header1>
-            <p className="text-gray-600 mb-6">
-              Bu sayfayı düzenleme yetkiniz bulunmamaktadır.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {currentProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-white rounded-lg shadow-md p-6"
-                >
-                  <h3 className="text-xl font-semibold mb-2">
-                    {product.title}
-                  </h3>
-                  <p className="text-gray-600">{product.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <EditableMainItemGrid
+          items={currentProducts}
+          title={pageTitle}
+          baseHref="superadmin/urunler"
+          onSave={handleProductSave}
+          onTitleSave={canEditTitle() ? handleTitleSave : undefined}
+          canEditImages={canEditImages()}
+          canEditDescriptions={canEditDescriptions()}
+          canEditTitle={canEditTitle()}
+          canDelete={canDeleteProducts()}
+          canAdd={canAddProducts()}
+        />
       </div>
     </div>
   );

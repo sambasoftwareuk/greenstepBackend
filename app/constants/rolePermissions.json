@@ -1,11 +1,11 @@
 {
   "admin": {
-    "edit_products": false,
+    "edit_products": true,
     "edit_title": true,
     "add_products": false,
     "delete_products": false,
-    "edit_images": false,
-    "edit_descriptions": false,
+    "edit_images": true,
+    "edit_descriptions": true,
     "manage_users": false,
     "access_financial": false
   },
