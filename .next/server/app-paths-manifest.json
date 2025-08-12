@@ -1,8 +1,5 @@
 {
-  "/api/permissions/update/route": "app/api/permissions/update/route.js",
+  "/api/auth/verify/route": "app/api/auth/verify/route.js",
   "/urunler/page": "app/urunler/page.js",
-  "/page": "app/page.js",
-  "/superadmin/urunler/page": "app/superadmin/urunler/page.js",
-  "/superadmin/urunler/[slug]/page": "app/superadmin/urunler/[slug]/page.js",
-  "/login/page": "app/login/page.js"
+  "/superadmin/urunler/[slug]/page": "app/superadmin/urunler/[slug]/page.js"
 }

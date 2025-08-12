@@ -8,7 +8,7 @@ import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function EditProductDetailPage({ params }) {
-  const { slug } = React.use(params);
+  const { slug } = params;
   const { user, canEdit, loading } = useAuth();
   const router = useRouter();
   const product = products.find((p) => p.slug === slug);

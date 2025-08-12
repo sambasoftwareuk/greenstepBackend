@@ -7,7 +7,7 @@ import sideMenuData from "../../../mocks/sideMenuData.json";
 import { useAuth } from "../../../contexts/AuthContext";
 
 export default function AdminProductDetailPage({ params }) {
-  const { slug } = React.use(params);
+  const { slug } = params;
   const { user } = useAuth();
   const [rolePermissions, setRolePermissions] = useState(null);
   const product = products.find((p) => p.slug === slug);

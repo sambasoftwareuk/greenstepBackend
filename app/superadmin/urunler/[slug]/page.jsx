@@ -8,7 +8,7 @@ import Breadcrumb from "../../../_molecules/breadCrumb";
 import sideMenuData from "../../../mocks/sideMenuData.json";
 
 export default function SuperAdminProductDetailPage({ params }) {
-  const { slug } = React.use(params);
+  const { slug } = params;
   const { user } = useAuth();
   const product = products.find((p) => p.slug === slug);
   const productMenu = sideMenuData.filter(
