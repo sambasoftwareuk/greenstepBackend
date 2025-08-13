@@ -1,0 +1,32 @@
+{
+  "admin": {
+    "edit_products": true,
+    "edit_title": true,
+    "add_products": false,
+    "delete_products": false,
+    "edit_images": true,
+    "edit_descriptions": true,
+    "manage_users": false,
+    "access_financial": false
+  },
+  "director": {
+    "edit_products": false,
+    "edit_title": false,
+    "add_products": false,
+    "delete_products": false,
+    "edit_images": false,
+    "edit_descriptions": false,
+    "manage_users": false,
+    "access_financial": false
+  },
+  "super_admin": {
+    "edit_products": true,
+    "edit_title": true,
+    "add_products": true,
+    "delete_products": true,
+    "edit_images": true,
+    "edit_descriptions": true,
+    "manage_users": true,
+    "access_financial": true
+  }
+}

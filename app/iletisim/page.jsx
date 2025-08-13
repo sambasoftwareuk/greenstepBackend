@@ -3,13 +3,12 @@ import React from "react";
 import Breadcrumb from "../_molecules/breadCrumb";
 import ContactCard from "../_molecules/contactCard";
 import ContactForm from "../_molecules/contactForm";
-import { Header1, Header2, Header3 } from "../_atoms/Headers";
+import { Header1, Header3 } from "../_atoms/Headers";
 import contactData from "../mocks/contactData.json";
 
 const ContactPage = () => {
-  const handleFormSubmit = (formData) => {
-    console.log("Form submitted:", formData);
-    // API çağrısı 
+  const handleSubmit = (formData) => {
+    // Form submitted
   };
 
   return (
@@ -96,11 +95,11 @@ const ContactPage = () => {
             </div>
           </ContactCard>
 
-        <ContactForm
-          onSubmit={handleFormSubmit}
-          kvkkLink="/kvkk-aydinlatma-metni"
-          className="w-full mb-12 text-center"
-        />
+          <ContactForm
+            onSubmit={handleSubmit}
+            kvkkLink="/kvkk-aydinlatma-metni"
+            className="w-full mb-12 text-center"
+          />
           {/* İletişim Formu */}
         </div>
 

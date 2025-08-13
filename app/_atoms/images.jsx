@@ -46,16 +46,16 @@ export const CardImage = ({
 }) => {
   const src = useMemo(() => getSrc(imageLink), [imageLink]);
   const randomImageAlt = useMemo(() => getImageSlug(imageLink), [imageLink]);
+
   return (
     <div className="mx-auto w-full">
-      <div
-        className={`relative w-full  overflow-hidden rounded-t-m ${aspectRatio}`}
-      >
+      <div className="relative w-full overflow-hidden rounded-t-m">
         <Image
           src={src}
           alt={`slider-image-${imageAlt ? imageAlt : randomImageAlt}`}
-          fill
-          className="object-contain"
+          width={300}
+          height={300}
+          className="w-full h-auto object-contain"
         />
       </div>
     </div>

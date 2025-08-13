@@ -1,13 +1,23 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Icon from "../_atoms/Icon";
-import { IconOnlyButton } from "../_atoms/buttons";
+import { IconOnlyButton, PrimaryButton } from "../_atoms/buttons";
 import { Home, TurkishFlag, UKFlag } from "../_atoms/Icons";
 import navLinks from "../constants/navLinks";
 import { LogoImage } from "../_atoms/images";
 import Logo from "../constants/logo.json";
+import { useAuth } from "../contexts/AuthContext";
 
 const DesktopNavbar = () => {
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = "/";
+  };
+
   return (
     <header className="w-full border-b bg-white shadow-sm">
       <nav className="flex items-center justify-between px-4 md:px-8 py-3 gap-2 max-w-full">
@@ -54,9 +64,31 @@ const DesktopNavbar = () => {
           <span className="inline-block w-px h-7 bg-gray-300 mx-3" />
 
           {/* Icons */}
-          <div className="flex">
+          <div className="flex items-center space-x-2">
             <IconOnlyButton icon={<Icon variant={TurkishFlag} size={24} />} />
             <IconOnlyButton icon={<Icon variant={UKFlag} size={22} />} />
+
+            {/* Logout Button - Only show when user is logged in */}
+            {user && (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-600">
+                  {user.username} ({user.role})
+                </span>
+                {user.role === "super_admin" && (
+                  <Link href="/superadmin/permissions">
+                    <PrimaryButton
+                      label="Yetki Yönetimi"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+                    />
+                  </Link>
+                )}
+                <PrimaryButton
+                  onClick={handleLogout}
+                  label="Çıkış"
+                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+                />
+              </div>
+            )}
           </div>
         </div>
       </nav>
