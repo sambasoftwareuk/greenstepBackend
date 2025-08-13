@@ -40,18 +40,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 1. **Admin** - Atom, Molekül ve Component düzenleme yetkisi
 
-   - **Login URL**: [http://localhost:3000/sambaAdminLogin](http://localhost:3000/sambaAdminLogin)
    - **Credentials**: `admin` / `admin123`
    - **Dashboard**: [http://localhost:3000/admin/urunler](http://localhost:3000/admin/urunler)
 
 2. **Süper Admin** - Tam yetki ile sistem yönetimi
 
-   - **Login URL**: [http://localhost:3000/sambaSuperAdminLogin](http://localhost:3000/sambaSuperAdminLogin)
    - **Credentials**: `superadmin` / `super123`
    - **Dashboard**: [http://localhost:3000/superadmin/urunler](http://localhost:3000/superadmin/urunler)
 
 3. **Direktör** - Tam yetki ile sistem ve finansal yönetim
-   - **Login URL**: [http://localhost:3000/sambaDirectorLogin](http://localhost:3000/sambaDirectorLogin)
    - **Credentials**: `director` / `director123`
    - **Dashboard**: [http://localhost:3000/director/urunler](http://localhost:3000/director/urunler)
 

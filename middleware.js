@@ -7,7 +7,7 @@ export async function middleware(request) {
     const token = request.cookies.get("auth-token")?.value;
 
     if (!token) {
-      return NextResponse.redirect(new URL("/sambaAdminLogin", request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
     }
 
     try {
@@ -19,13 +19,13 @@ export async function middleware(request) {
 
       // Admin rolü kontrolü
       if (decoded.payload.role !== "admin") {
-        return NextResponse.redirect(new URL("/sambaAdminLogin", request.url));
+        return NextResponse.redirect(new URL("/login", request.url));
       }
 
       return NextResponse.next();
     } catch (error) {
       // Geçersiz token - login sayfasına yönlendir
-      return NextResponse.redirect(new URL("/sambaAdminLogin", request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 
@@ -34,9 +34,7 @@ export async function middleware(request) {
     const token = request.cookies.get("auth-token")?.value;
 
     if (!token) {
-      return NextResponse.redirect(
-        new URL("/sambaSuperAdminLogin", request.url)
-      );
+      return NextResponse.redirect(new URL("/login", request.url));
     }
 
     try {
@@ -48,17 +46,13 @@ export async function middleware(request) {
 
       // Süper admin rolü kontrolü
       if (decoded.payload.role !== "super_admin") {
-        return NextResponse.redirect(
-          new URL("/sambaSuperAdminLogin", request.url)
-        );
+        return NextResponse.redirect(new URL("/login", request.url));
       }
 
       return NextResponse.next();
     } catch (error) {
       // Geçersiz token - login sayfasına yönlendir
-      return NextResponse.redirect(
-        new URL("/sambaSuperAdminLogin", request.url)
-      );
+      return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 
@@ -67,7 +61,7 @@ export async function middleware(request) {
     const token = request.cookies.get("auth-token")?.value;
 
     if (!token) {
-      return NextResponse.redirect(new URL("/sambaDirectorLogin", request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
     }
 
     try {
@@ -79,15 +73,13 @@ export async function middleware(request) {
 
       // Direktör rolü kontrolü
       if (decoded.payload.role !== "director") {
-        return NextResponse.redirect(
-          new URL("/sambaDirectorLogin", request.url)
-        );
+        return NextResponse.redirect(new URL("/login", request.url));
       }
 
       return NextResponse.next();
     } catch (error) {
       // Geçersiz token - login sayfasına yönlendir
-      return NextResponse.redirect(new URL("/sambaDirectorLogin", request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 
