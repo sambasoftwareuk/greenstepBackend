@@ -1,5 +1,4 @@
 {
   "/api/auth/verify/route": "app/api/auth/verify/route.js",
-  "/urunler/page": "app/urunler/page.js",
-  "/superadmin/urunler/[slug]/page": "app/superadmin/urunler/[slug]/page.js"
+  "/login/page": "app/login/page.js"
 }

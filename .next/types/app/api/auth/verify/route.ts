@@ -1,4 +1,4 @@
-// File: /Users/bahadir/Desktop/greenstepBackend/app/api/auth/verify/route.js
+// File: D:\Coding\greenstepBackend\app\api\auth\verify\route.js
 import * as entry from '../../../../../../app/api/auth/verify/route.js'
 import type { NextRequest } from 'next/server.js'
 
