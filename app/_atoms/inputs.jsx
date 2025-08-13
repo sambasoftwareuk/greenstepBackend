@@ -14,7 +14,10 @@ export const InputBasicWithIcon = ({
   <div
     className={`flex items-center w-full border rounded-md px-4 py-2 text-base focus-within:ring-2 focus-within:ring-purple-400 ${className}`}
   >
-    <input className="flex-1 border-none bg-transparent focus:outline-none text-base placeholder:text-secondary40" />
+    <input
+      className="flex-1 border-none bg-transparent focus:outline-none text-base placeholder:text-secondary40"
+      {...props}
+    />
     {Icon && <Icon size={20} />}
   </div>
 );
