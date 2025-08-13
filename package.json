@@ -6,19 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "hash:argon2": "node tools/hash-argon2.mjs"
   },
   "dependencies": {
     "@react-hook/window-size": "^3.1.1",
     "bcryptjs": "^3.0.2",
     "jose": "^6.0.12",
     "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.3",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "argon2": "^0.44.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
