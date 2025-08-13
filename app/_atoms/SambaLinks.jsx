@@ -5,7 +5,7 @@ export function SambaLinks({
   href = "#",
   className = "",
   color = "primary900",
-  underline = "hover", // "always" | "hover" | "none
+  underline = "hover", // "always" | "hover" | "none"
   hoverBg = "",
 
   ...props
