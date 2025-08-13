@@ -24,7 +24,7 @@ export default function LoginPage() {
       // Önce mevcut cookie'yi temizle
       await fetch("/api/auth/logout", { method: "POST" });
 
-      const response = await fetch("/api/auth/unified-login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
