@@ -22,11 +22,13 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch("/api/auth/verify");
+      const response = await fetch("/api/auth/session", { credentials: "include" });
       const data = await response.json();
 
-      if (response.ok && data.authenticated) {
+      if (response.ok && data.user) {
         setUser(data.user);
+      } else {
+        setUser(null);
       }
     } catch (error) {
       console.error("Auth check error:", error);
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST" });
+      await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
       setUser(null);
     } catch (error) {
       console.error("Logout error:", error);
